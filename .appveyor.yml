@@ -20,7 +20,7 @@ environment:
   # Github token to commit pushed packages to repository
   github_user_repo: {github_user}/{repository}
   github_api_key:
-    secure: YOUR_GITHUB_API_KEY_HERE_ENCRYPTED_STRING #https://ci.appveyor.com/tools/encrypt
+    secure: 5S8p+RuFKWUyUp8FTBtWLy0TQ9XU9PF+3PVXU2T6jTplZX9xujioxE7F3lXhKzP6 #https://ci.appveyor.com/tools/encrypt
 
 
   # Mail credentials - for error notifications
@@ -34,18 +34,18 @@ environment:
 
   # ID of the gist used to save run results - create a gist under the github_user (secret or not) and grab the id - https://gist.github.com/name/id
   # Optional, leave empty to create anonymous gist
-  gist_id:
+  gist_id: 4f822ef7bbf7188cd0b108ed8c6f7e84
 
   # Force test: gist id for test results
-  gist_id_test:
+  gist_id_test: d42efe7a7b17dd0d0c54daffced5294d
 
   # Chocolatey API key - to push updated packages
   api_key:
-    secure: YOUR_CHOCO_API_KEY_HERE_ENCRYPTED_STRING # https://ci.appveyor.com/tools/encrypt
+    secure: oH+auZQ9PAjTczqko3jKTASaYV7vbIeCw9H53Kmzix/UiBulVikjg/CvS4t3TEYO # https://ci.appveyor.com/tools/encrypt
 
 init:
-- git config --global user.email "chocolatey@realdimensions.net"
-- git config --global user.name "Chocolatey"
+- git config --global user.email "msumerano@gmail.com"
+- git config --global user.name "Michael Sumerano"
 - git config --global core.safecrlf false
 
 install:
