@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>puretext</id>
+        <version>6.1</version>
+        <title>PureText</title>
+        <authors>Steve Miller</authors>
+        <owners>sumo300</owners>
+        <licenseUrl>https://www.stevemiller.net/puretext/</licenseUrl>
+        <projectUrl>https://www.stevemiller.net/puretext/</projectUrl>
+        <iconUrl>https://www.stevemiller.net/puretext/puretext.gif</iconUrl>
+        <docsUrl>https://github.com/sumo300/chocolatey-puretext</docsUrl>
+        <bugTrackerUrl>https://github.com/sumo300/chocolatey-puretext/issues</bugTrackerUrl>
+        <projectSourceUrl>https://github.com/sumo300/chocolatey-puretext</projectSourceUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>Have you ever copied some text from a web page or a document and then wanted to paste it as simple text into another application without getting all the formatting from the original source? PureText makes this simple by adding a new Windows hot-key (default is WINDOWS+V) that allows you to paste text to any application without formatting.</description>
+        <summary>PureText is completely free to use. You may not profit from the distribution of it, nor may you bundle it with another product.</summary>
+        <releaseNotes>https://www.stevemiller.net/puretext/</releaseNotes>
+        <language>en-US</language>
+        <tags>plain text rich copy paste unformat</tags>
+    </metadata>
+    <files>
+        <file src="tools\chocolateyInstall.ps1" target="tools\chocolateyInstall.ps1" />
+    </files>
+</package>
