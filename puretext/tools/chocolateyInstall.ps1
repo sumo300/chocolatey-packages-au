@@ -2,12 +2,12 @@ $ErrorActionPreference = 'Stop'
 
 $packageArgs = @{
   packageName    = 'PureText'
-  url            = 'https://stevemiller.net/downloads/puretext_6.1_32-bit.zip'
-  url64          = 'https://stevemiller.net/downloads/puretext_6.1_64-bit.zip'
+  url            = 'https://stevemiller.net/downloads/puretext_6.2_32-bit.zip'
+  url64          = 'https://stevemiller.net/downloads/puretext_6.2_64-bit.zip'
   unzipLocation  = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-  checksum       = '30B00DEB0C00DB95971F46F72FA24CA067113955551334DF8BD7E8F92F9AF7F6'
+  checksum       = '947061009231189CEAD7A281AFAFAB0F7E20F2D4F1F5BE99CF5C7DC991AEF379'
   checksumType   = 'sha256'
-  checksum64     = 'A6E5607F99973D38245F0019F7178DD1A131ED8EBE255D310ADEA9CA8F35DC1C'
+  checksum64     = '678E8BB64A39DC1FAEF83081FBDB79D6C6C62FAD4FFA29BC4DFA824A2D8DFC64'
   checksum64Type = 'sha256'
 }
 
