@@ -1,6 +1,6 @@
 import-module au
 
-$releases = 'https://github.com/Komet/MediaElch/releases'
+$latestRelease = 'https://api.github.com/repos/Komet/MediaElch/releases/latest'
 
 function global:au_SearchReplace {
    @{
@@ -16,13 +16,12 @@ function global:au_SearchReplace {
 }
 
 function global:au_GetLatest {
-    $download_page = Invoke-WebRequest -Uri $releases
-
-    $url32   = $download_page.links | ? href -match '.zip$' | % href | select -First 1
-    $version = (Split-Path ( Split-Path $url32 ) -Leaf).Substring(1)
+    $assets = (Invoke-RestMethod $latestRelease).assets
+    $fileName = $assets[2].name
+    $version = $fileName.Split('_')[2]
 
     @{
-        URL32   = 'https://github.com' + $url32
+        URL32   = $assets[2].browser_download_url
         Version = $version
         ReleaseNotes = "https://mediaelch.github.io/mediaelch-blog/posts/mediaelch-v$version/"
     }
