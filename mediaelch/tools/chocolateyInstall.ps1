@@ -2,8 +2,8 @@
 
 $packageArgs = @{
   packageName    = 'MediaElch'
-  url            = 'https://github.com/Komet/MediaElch/releases/download/v2.8.18/MediaElch_win_2.8.18_2022-10-28_git-146c4b77.zip'
-  checksum       = '86538cf16cff2a5a826baaaaf5b8ae9254cbb0deb4491a3880781db9289c58d0'
+  url            = 'https://github.com/Komet/MediaElch/releases/download/v2.10.0/MediaElch_win_10_or_later_Qt6_2.10.0_2023-02-05_git-960303af.zip'
+  checksum       = 'c7f9b539527e59dbfa7a4a88621b14c85a6860d5b63646787e6e976eb7c787af'
   checksumType   = 'sha256'
   unzipLocation  = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 }
