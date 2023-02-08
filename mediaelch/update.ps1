@@ -16,12 +16,13 @@ function global:au_SearchReplace {
 }
 
 function global:au_GetLatest {
-    $assets = (Invoke-RestMethod $latestRelease).assets
-    $fileName = $assets[2].name
-    $version = $fileName.Split('_')[2]
+    $releaseObj = Invoke-RestMethod $latestRelease
+    $assets = $releaseObj.assets
+    $assetObj = $assets | Where-Object { $_.name -like "*win_10*" } | Select-Object -First 1
+    $version = $releaseObj.tag_name.Remove(0,1)
 
     @{
-        URL32   = $assets[2].browser_download_url
+        URL32   = $assetObj.browser_download_url
         Version = $version
         ReleaseNotes = "https://mediaelch.github.io/mediaelch-blog/posts/mediaelch-v$version/"
     }
