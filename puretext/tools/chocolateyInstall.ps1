@@ -13,7 +13,7 @@ $packageArgs = @{
 
 Install-ChocolateyZipPackage @packageArgs
 
-$hr = "="*[System.Console]::WindowWidth
+$hr = "=" * 100
 Write-Host $hr
 Write-Host " Type `puretext` to run. PureText will run in your system tray."
 Write-Host " It can be set to run at system startup in its settings. Enjoy."
