@@ -1,5 +1,4 @@
-
-[![](https://ci.appveyor.com/api/projects/status/github/sumo300/chocolatey-packages-au?svg=true)](https://ci.appveyor.com/project/sumo300/chocolatey-packages-au)
+[![CI](https://github.com/sumo300/chocolatey-packages-au/actions/workflows/ci.yml/badge.svg)](https://github.com/sumo300/chocolatey-packages-au/actions/workflows/ci.yml)
 [Update status](https://gist.github.com/sumo300/4f822ef7bbf7188cd0b108ed8c6f7e84)
 [![](http://transparent-favicon.info/favicon.ico)](#)
 [chocolatey/sumo300](https://chocolatey.org/profiles/sumo300)
