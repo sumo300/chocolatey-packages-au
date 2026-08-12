@@ -73,25 +73,31 @@ jobs:
           GIST_ID: "4f822ef7bbf7188cd0b108ed8c6f7e84"
           AU_RESULTS_JSON: ${{ steps.au.outputs.results }}
         run: |
-          # 1. Parse JSON results from the Action output
+          # 1. Parse JSON results
           $results = $env:AU_RESULTS_JSON | ConvertFrom-Json
 
           # 2. Build Markdown Table
           $md = @()
           $md += "## Chocolatey AU Update Report"
-          $md += "*Last Run: $(Get-Date -Format 'yyyy-MM-dd HH:mm UTC')*"
+          $md += "*Last Run: $(Get-Date -Format 'yyyy-MM-dd HH:mm UTC')"
           $md += ""
           $md += "| Package | Status | Version | Error / Details |"
           $md += "| :--- | :--- | :--- | :--- |"
 
           if ($results -and $results.Count -gt 0) {
               foreach ($r in $results) {
-                  $pkg     = $r.Package
-                  $status  = $r.Status
-                  $version = if ($r.Version) { $r.Version } else { 'N/A' }
-                  $err     = if ($r.Error) { $r.Error -replace '\r?\n', ' ' } else { 'None' }
+                  # Extract leaf folder name
+                  $pkg = Split-Path -Leaf $r.Package
                   
-                  # Add status emoji formatting
+                  $status = $r.Status
+                  
+                  # Format Version safely
+                  $versionVal = if ($r.Version) { $r.Version } else { 'N/A' }
+                  $versionFormatted = "``$versionVal``"
+                  
+                  $err = if ($r.Error) { $r.Error -replace '\r?\n', ' ' } else { 'None' }
+
+                  # Format Status with Emojis
                   $statusFormatted = switch ($status) {
                       'Updated'  { "✅ Updated" }
                       'NoUpdate' { "➖ No Update" }
@@ -99,7 +105,7 @@ jobs:
                       default    { $status }
                   }
 
-                  $md += "| **$pkg** | $statusFormatted | `$version` | $err |"
+                  $md += "| **$pkg** | $statusFormatted | $versionFormatted | $err |"
               }
           } else {
               $md += "| *None* | *No packages evaluated* | - | - |"
@@ -107,7 +113,7 @@ jobs:
 
           $markdownContent = $md -join "`n"
 
-          # 3. Patch Gist via API
+          # 3. Patch Gist
           $payload = @{
               description = "Chocolatey AU Update Status - Last Run: $(Get-Date -Format 'yyyy-MM-dd HH:mm UTC')"
               files = @{
