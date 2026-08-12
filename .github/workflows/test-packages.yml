@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    shell: pwsh
+    shell: powershell
 
 jobs:
   update:
@@ -21,7 +21,6 @@ jobs:
           fetch-depth: 0
 
       - name: Install AU Module & Dependencies
-        shell: powershell
         run: |
           Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
           Install-Module -Name au -Scope CurrentUser -Force
