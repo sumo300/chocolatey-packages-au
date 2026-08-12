@@ -66,52 +66,51 @@ jobs:
           test-install: true
           commit-changes: true
         
-      - name: Update Production Gist from AU Results
+      - name: Update Production Gist with AU Report
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GIST_ID: "4f822ef7bbf7188cd0b108ed8c6f7e84"
+          AU_REPORT: ${{ steps.au.outputs.report }}
           AU_RESULTS_JSON: ${{ steps.au.outputs.results }}
         run: |
-          # 1. Parse JSON results
-          $results = $env:AU_RESULTS_JSON | ConvertFrom-Json
+          # 1. Primary choice: Use the exact AU report output provided by the action
+          $markdownContent = $env:AU_REPORT
 
-          # 2. Build Markdown Table
-          $md = @()
-          $md += "## Chocolatey AU Update Report"
-          $md += "*Last Run: $(Get-Date -Format 'yyyy-MM-dd HH:mm UTC')"
-          $md += ""
-          $md += "| Package | Status | Version | Error / Details |"
-          $md += "| :--- | :--- | :--- | :--- |"
+          # 2. Fallback: If AU_REPORT is empty, reconstruct the table manually using AU_RESULTS_JSON
+          if ([string]::IsNullOrWhiteSpace($markdownContent)) {
+              Write-Host "steps.au.outputs.report was empty. Falling back to JSON results..."
+              $results = $env:AU_RESULTS_JSON | ConvertFrom-Json
 
-          if ($results -and $results.Count -gt 0) {
-              foreach ($r in $results) {
-                  # Extract leaf folder name
-                  $pkg = Split-Path -Leaf $r.Package
-                  
-                  $status = $r.Status
-                  
-                  # Format Version safely
-                  $versionVal = if ($r.Version) { $r.Version } else { 'N/A' }
-                  $versionFormatted = "``$versionVal``"
-                  
-                  $err = if ($r.Error) { $r.Error -replace '\r?\n', ' ' } else { 'None' }
+              $md = @()
+              $md += "# Update-AUPackages"
+              $md += "**UTC**: $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
+              $md += ""
+              $md += "| Package | Status | Version | Error / Details |"
+              $md += "| :--- | :--- | :--- | :--- |"
 
-                  # Format Status with Emojis
-                  $statusFormatted = switch ($status) {
-                      'Updated'  { "✅ Updated" }
-                      'NoUpdate' { "➖ No Update" }
-                      'Error'    { "❌ Error" }
-                      default    { $status }
+              if ($results -and $results.Count -gt 0) {
+                  foreach ($r in $results) {
+                      $pkg = Split-Path -Leaf $r.Package
+                      $status = $r.Status
+                      $versionVal = if ($r.Version) { $r.Version } else { 'N/A' }
+                      $versionFormatted = "``$versionVal``"
+                      $err = if ($r.Error) { $r.Error -replace '\r?\n', ' ' } else { 'None' }
+
+                      $statusFormatted = switch ($status) {
+                          'Updated'  { "✅ Updated" }
+                          'NoUpdate' { "➖ No Update" }
+                          'Error'    { "❌ Error" }
+                          default    { $status }
+                      }
+
+                      $md += "| **$pkg** | $statusFormatted | $versionFormatted | $err |"
                   }
-
-                  $md += "| **$pkg** | $statusFormatted | $versionFormatted | $err |"
+              } else {
+                  $md += "| *None* | *No packages evaluated* | - | - |"
               }
-          } else {
-              $md += "| *None* | *No packages evaluated* | - | - |"
+              $markdownContent = $md -join "`n"
           }
-
-          $markdownContent = $md -join "`n"
 
           # 3. Patch Gist
           $payload = @{
