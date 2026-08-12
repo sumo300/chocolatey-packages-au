@@ -1,4 +1,4 @@
-import-module au
+import-module chocolatey-au
 
 $latestRelease = 'https://api.github.com/repos/Komet/MediaElch/releases/latest'
 

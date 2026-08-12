@@ -11,7 +11,7 @@ defaults:
     shell: pwsh
 
 jobs:
-  update:
+  test:
     runs-on: windows-latest
 
     steps:
@@ -20,10 +20,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install AU Module & Dependencies
+      - name: Install Dependencies
         run: |
           Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
-          Install-Module -Name au -Scope CurrentUser -Force
           Install-Module -Name powerhtml -Scope CurrentUser -Force
 
       - name: Run Chocolatey AU Action
