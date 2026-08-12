@@ -15,9 +15,20 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - uses: chocolatey-community/chocolatey-au-action@2.0
+      - name: Install AU Module & Dependencies
+        shell: powershell
+        run: |
+          Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+          Install-Module -Name au -Scope CurrentUser -Force
+          Install-Module -Name powerhtml -Scope CurrentUser -Force
+
+      - name: Run Chocolatey AU Action
+        uses: chocolatey-community/chocolatey-au-action@2.0
         with:
           package-paths: automatic/*
 
