@@ -13,10 +13,11 @@ defaults:
     shell: pwsh
 
 jobs:
+  # JOB 1: Test Packages
+  # Triggers on: push OR workflow_dispatch
   test:
     name: Test Packages
 
-    # Runs on git pushes OR manual triggers
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     runs-on: windows-latest
@@ -39,14 +40,18 @@ jobs:
           push: false
           test-install: true
           commit-changes: false
+
+  # JOB 2: Update & Push Packages          
+  # Triggers on: schedule OR manual workflow_dispatch (if test succeeded)
   update:
     name: Update & Push Packages
     needs: test
 
-    # Condition: Stops if test fails. Runs update if test succeeds OR if test was intentionally skipped (e.g. cron schedule).
     if: |
-      always() &&
-      (needs.test.result == 'success' || needs.test.result == 'skipped')
+      always() && (
+        github.event_name == 'schedule' ||
+        (github.event_name == 'workflow_dispatch' && needs.test.result == 'success')
+      )
 
     runs-on: windows-latest
 
