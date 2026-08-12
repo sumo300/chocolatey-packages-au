@@ -41,9 +41,12 @@ jobs:
           commit-changes: false
   update:
     name: Update & Push Packages
+    needs: test
 
-    # Runs on schedule (cron) OR manual triggers
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    # Condition: Stops if test fails. Runs update if test succeeds OR if test was intentionally skipped (e.g. cron schedule).
+    if: |
+      always() &&
+      (needs.test.result == 'success' || needs.test.result == 'skipped')
 
     runs-on: windows-latest
 
