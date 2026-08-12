@@ -1,0 +1,26 @@
+name: test-packages
+
+on:
+    push:
+      branches:
+        - master
+    workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  update:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: chocolatey-community/chocolatey-au-action@2.0
+        with:
+          package-paths: automatic/*
+
+          push: false
+          test-install: true
+          commit-changes: false
