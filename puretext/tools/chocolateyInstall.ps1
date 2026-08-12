@@ -1,13 +1,19 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
+
+$url32      = ''
+$checksum32 = ''
+$url64      = ''
+$checksum64 = ''
+$toolsDir   = '$(Split-Path -Parent $MyInvocation.MyCommand.Definition)'
 
 $packageArgs = @{
   packageName    = 'PureText'
-  url            = 'https://stevemiller.net/downloads/puretext_6.2_32-bit.zip'
-  url64          = 'https://stevemiller.net/downloads/puretext_6.2_64-bit.zip'
-  unzipLocation  = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-  checksum       = '947061009231189CEAD7A281AFAFAB0F7E20F2D4F1F5BE99CF5C7DC991AEF379'
+  url            = $url32
+  url64          = $url64
+  unzipLocation  = $toolsDir
+  checksum       = $checksum32
   checksumType   = 'sha256'
-  checksum64     = '678E8BB64A39DC1FAEF83081FBDB79D6C6C62FAD4FFA29BC4DFA824A2D8DFC64'
+  checksum64     = $checksum64
   checksum64Type = 'sha256'
 }
 

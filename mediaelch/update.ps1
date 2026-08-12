@@ -3,16 +3,16 @@ import-module au
 $latestRelease = 'https://api.github.com/repos/Komet/MediaElch/releases/latest'
 
 function global:au_SearchReplace {
-   @{
-        ".\tools\chocolateyInstall.ps1" = @{
-            "(?i)(^\s*url\s*=\s*)('.*')"        = "`$1'$($Latest.URL32)'"
-            "(?i)(^\s*checksum\s*=\s*)('.*')"   = "`$1'$($Latest.Checksum32)'"
+    @{
+        'tools\chocolateyInstall.ps1' = @{
+            "(^[$]url\s*=\s*)('.*')"      = "`$1'$($Latest.URL32)'"
+            "(^[$]checksum\s*=\s*)('.*')" = "`$1'$($Latest.Checksum32)'"
         }
 
         "$($Latest.PackageName).nuspec" = @{
             "(\<releaseNotes\>).*?(\</releaseNotes\>)" = "`${1}$($Latest.ReleaseNotes)`$2"
         }
-    }
+     }
 }
 
 function global:au_GetLatest {
@@ -28,4 +28,4 @@ function global:au_GetLatest {
     }
 }
 
-update
+update -ChecksumFor 32
